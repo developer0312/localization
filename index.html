@@ -1,0 +1,98 @@
+    <!DOCTYPE>
+     <html lang="en" dir="ltr">
+    <head>
+      <meta charset="utf-8">
+      <title>Demo Application</title>
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+  <script src="js/lib/history/jquery.history.js"></script>
+  <script src="js/lib/url/url.min.js"></script>
+ 
+      <script src="js/lib/CLDRPluralRuleParser/CLDRPluralRuleParser.js"></script>
+      <script src="js/lib/jquery.i18n/jquery.i18n.js"></script>
+      <script src="js/lib/jquery.i18n/jquery.i18n.messagestore.js"></script>
+      <script src="js/lib/jquery.i18n/jquery.i18n.fallbacks.js"></script>
+      <script src="js/lib/jquery.i18n/jquery.i18n.language.js"></script>
+      <script src="js/lib/jquery.i18n/jquery.i18n.parser.js"></script>
+      <script src="js/lib/jquery.i18n/jquery.i18n.emitter.js"></script>
+      <script src="js/lib/jquery.i18n/jquery.i18n.emitter.bidi.js"></script>
+ 
+      <script src="js/global.js">jQuery(function($) {
+      $.i18n().load( {
+        'en': './js/i18n/en.json',
+        'ru': './js/i18n/ru.json'
+      } );
+    });
+       jQuery(function($) {
+        // ...
+      $.i18n().load( {
+        'en': './js/i18n/en.json',
+        'ru': './js/i18n/ru.json'
+      } ).done(function() {
+          $('.switch-locale').on('click', 'a', function(e) {
+            e.preventDefault();
+            $.i18n().locale = $(this).data('locale');
+          });
+        });
+    });
+  </script>
+    </head>
+    <body>
+      <ul class="switch-locale">
+      <li><a href="#" data-locale="en">English</a></li>
+      <li><a href="#" data-locale="ru">Русский</a></li>
+    </ul>
+    </body>
+    <script> $.i18n().load( {
+        'en': 'dir/en.json'
+    } );
+   $.i18n( {
+        locale: 'en'
+    } );
+    var set_locale_to = function(locale) {
+      if (locale)
+        $.i18n().locale = locale;
+    };
+    jQuery(function() {
+      $.i18n().load( {
+            // ...
+      } ).done(function() {
+        set_locale_to(url('?locale'));
+            // ...
+        });
+    });
+    jQuery(function() {
+      $.i18n().load( {
+            // ...
+      } ).done(function() {
+        set_locale_to(url('?locale'));
+            History.Adapter.bind(window, 'statechange', function(){
+              set_locale_to(url('?locale'));
+            });
+            // ...
+        });
+    });
+    var set_locale_to = function(locale) {
+      if (locale)
+        $.i18n().locale = locale;
+    };
+ 
+    jQuery(function() {
+      $.i18n().load( {
+        'en': './js/i18n/en.json',
+        'ru': './js/i18n/ru.json'
+      } ).done(function() {
+        set_locale_to(url('?locale'));
+ 
+        History.Adapter.bind(window, 'statechange', function(){
+          set_locale_to(url('?locale'));
+        });
+ 
+        $('.switch-locale').on('click', 'a', function(e) {
+          e.preventDefault();
+          History.pushState(null, null, "?locale=" + $(this).data('locale'));
+        });
+      });
+    });
+  </script>
+    </html>
